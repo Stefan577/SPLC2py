@@ -29,6 +29,15 @@ def _twise(params):
         raise
     return t
 
+def _randomB(params):
+    try:
+        r = f"random sampleSize:{params['seed']} seed:{params['numConfigs']}"
+    except:
+        logging.error(
+            "For using random sampling you need to specify sampleSize and seed."
+        )
+        raise
+    return r
 
 def binary_strategy_string(method: str, params=None):
     bin_strategies = {
@@ -38,6 +47,7 @@ def binary_strategy_string(method: str, params=None):
         "distance-based": _distancebased,
         "twise": _twise,
         "allbinary": "allbinary",
+        "random": _randomB,
     }
 
     if isinstance(bin_strategies[method], str):
