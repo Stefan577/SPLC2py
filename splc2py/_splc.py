@@ -53,7 +53,7 @@ class DockerSplcExecutor:
 
         cmd = f"mono /application/SPLConqueror/SPLConqueror/CommandLine/bin/Release/CommandLine.exe {mount_path}/script.a"
         self.client.containers.run(
-            image="mailach/splc",
+            image="sjahns/splc",
             command=cmd,
             remove=True,
             volumes=[f"{mount_path}:{mount_path}"],

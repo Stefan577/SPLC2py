@@ -31,7 +31,7 @@ def _twise(params):
 
 def _randomB(params):
     try:
-        r = f"random sampleSize:{params['seed']} seed:{params['numConfigs']}"
+        r = f"random seed:{params['seed']} numConfigs:{params['numConfigs']}"
     except:
         logging.error(
             "For using random sampling you need to specify sampleSize and seed."
@@ -188,6 +188,7 @@ class Sampler:
             binary=bin_string,
             numeric=num_string,
         )
+        print(script)
         _preprocess.serialize_data(self.artifact_repo, {"vm.xml": self.vm, "script.a": script})
         self.splc.execute(self.artifact_repo)
 
