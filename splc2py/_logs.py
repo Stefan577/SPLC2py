@@ -50,7 +50,7 @@ def extract_model(tmpdir):
 
     beginModels = logs.index("command: analyze-learning\n") + 1
     endModels = logs.index("Analyze finished\n")
-    learning_time = _time_to_sec(logs[_get_index(logs, "Elapsed=")].split("=")[1])
+    learning_time = _time_to_sec(logs[_get_index(logs, "Elapsed learning time")].split(":")[1])
     configs_with_to_large_dev = (
         logs[_get_index(logs, "large deviation:")].split(":")[1].strip()
     )
