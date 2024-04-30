@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "splc2py"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Alina Mailach <alina.mailach@informatik.uni-leipzig.de>"]
 
