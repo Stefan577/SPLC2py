@@ -6,7 +6,6 @@ import tempfile
 from typing import Sequence
 import xml.etree.ElementTree as ET
 
-
 from splc2py import _preprocess, _splc, _logs
 
 
@@ -29,6 +28,7 @@ def _twise(params):
         raise
     return t
 
+
 def _randomB(params):
     try:
         r = f"random seed:{params['seed']} numConfigs:{params['numConfigs']}"
@@ -38,6 +38,40 @@ def _randomB(params):
         )
         raise
     return r
+
+
+def _distribution_aware(params):
+    try:
+        r = f"distribution-aware numConfigs:{params['numConfigs']}"
+    except:
+        logging.error(
+            "For using hybrid sampling you need to specify numConfigs."
+        )
+        raise
+    return r
+
+def _distribution_preserving(params):
+    try:
+        r = f"distribution-preserving numConfigs:{params['numConfigs']}"
+    except:
+        logging.error(
+            "For using hybrid sampling you need to specify numConfigs."
+        )
+        raise
+    return r
+
+
+def hybrid_strategy_string(method: str, params=None):
+    bin_strategies = {
+        "distribution-aware": _distribution_aware,
+        "distribution-preserving": _distribution_preserving
+    }
+
+    if isinstance(bin_strategies[method], str):
+        return bin_strategies[method]
+
+    return bin_strategies[method](params)
+
 
 def binary_strategy_string(method: str, params=None):
     bin_strategies = {
@@ -160,7 +194,6 @@ def _list_to_dict(configs: Sequence[Sequence[str]], binary, numeric):
 
 class Sampler:
     def __init__(self, vm: ET, backend: str):
-
         self.vm = vm
         self.splc = _splc.SplcExecutorFactor(backend)
         self.numeric = _get_numeric_features(vm)
@@ -168,15 +201,18 @@ class Sampler:
         self.artifact_repo = None
 
     def sample(
-        self,
-        binary: str = "allbinary",
-        numeric: str = None,
-        formatting: str = "list",
-        params=None,
+            self,
+            binary: str = "allbinary",
+            numeric: str = None,
+            hybrid: str = None,
+            formatting: str = "list",
+            params=None,
     ):
         # Generate strings for sampling strategies
         bin_string = binary_strategy_string(binary, params)
         num_string = numeric_strategy_string(numeric, params) if numeric else None
+        hybrid_string = hybrid_strategy_string(hybrid, params) if hybrid else None
+
 
         # Generate script
 
@@ -187,6 +223,7 @@ class Sampler:
             path=self.artifact_repo,
             binary=bin_string,
             numeric=num_string,
+            hybrid=hybrid_string
         )
         print(script)
         _preprocess.serialize_data(self.artifact_repo, {"vm.xml": self.vm, "script.a": script})

@@ -13,6 +13,7 @@ def generate_script(
     path: str,
     binary: str = None,
     numeric: str = None,
+    hybrid: str = None,
     learning: str = None,
     mlsettings_pwd: str = None,
     nfp: str = None,
@@ -20,10 +21,13 @@ def generate_script(
 ):
     script = f"log {path}/logs.txt\n"
     script += f"vm {path}/vm.xml\n"
-    if binary:
-        script += f"binary {binary}\n"
-    if numeric:
-        script += f"numeric {numeric}\n"
+    if hybrid:
+        script += f"hybrid {hybrid}"
+    else:
+        if binary:
+            script += f"binary {binary}\n"
+        if numeric:
+            script += f"numeric {numeric}\n"
     if learning:
         script += f"load-mlsettings {mlsettings_pwd}\n"
         script += f"nfp {nfp}\n"
