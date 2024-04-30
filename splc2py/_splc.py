@@ -22,7 +22,7 @@ def generate_script(
     script = f"log {path}/logs.txt\n"
     script += f"vm {path}/vm.xml\n"
     if hybrid:
-        script += f"hybrid {hybrid}"
+        script += f"hybrid {hybrid}\n"
     else:
         if binary:
             script += f"binary {binary}\n"
