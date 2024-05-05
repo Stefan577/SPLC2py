@@ -42,7 +42,7 @@ def _randomB(params):
 
 def _distribution_aware(params):
     try:
-        r = f"distribution-aware numConfigs:{params['numConfigs']}"
+        r = f"distribution-aware numConfigs:{params['numConfigs']} seed:{params['seed']}"
     except:
         logging.error(
             "For using hybrid sampling you need to specify numConfigs."
@@ -52,7 +52,7 @@ def _distribution_aware(params):
 
 def _distribution_preserving(params):
     try:
-        r = f"distribution-preserving numConfigs:{params['numConfigs']}"
+        r = f"distribution-preserving numConfigs:{params['numConfigs']} seed:{params['seed']}"
     except:
         logging.error(
             "For using hybrid sampling you need to specify numConfigs."
